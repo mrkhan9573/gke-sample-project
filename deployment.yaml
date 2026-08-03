@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: gke-demo
+  namespace: demo
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: gke-demo
+
+  template:
+    metadata:
+      labels:
+        app: gke-demo
+
+    spec:
+      containers:
+      - name: gke-demo
+
+        image: us-central1-docker.pkg.dev/project-a8be22b6-39b8-45b6-887/demo-repo/gke-demo:v1
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8080
+
+        envFrom:
+        - configMapRef:
+            name: demo-config
